@@ -1,0 +1,682 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GoProperty - Find Your Dream Property</title>
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Roboto:wght@300;400;500&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    /* Reset and base styles */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      background-color: #ffffff;
+      color: #333;
+      line-height: 1.6;
+    }
+    /* Main container */
+    .container {
+      max-width: 480px;
+      margin: 0 auto;
+      overflow: hidden;
+    }
+    /* First section with gradient background */
+    .first-section {
+      position: relative;
+      background: linear-gradient(180deg, #38b6ff 0%, #38b6ff 70%, rgba(56, 182, 255, 0) 100%);
+      padding-bottom: 30px;
+      overflow: hidden;
+    }
+    /* City skyline background */
+    .city-background {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 120%;
+      z-index: 0;
+      opacity: 0.15;
+      transform: scale(1.1);
+    }
+    /* Header styles */
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px;
+      position: relative;
+      z-index: 1;
+    }
+    .logo {
+      display: flex;
+      align-items: center;
+    }
+    .logo img {
+      height: 48px;
+    }
+    .post-property-btn-container {
+      position: relative;
+    }
+    .free-forever-tag {
+      position: absolute;
+      top: -10px;
+      right: -5px;
+      background-color: #FFA500;
+      color: black;
+      font-size: 10px;
+      font-weight: bold;
+      padding: 3px 8px;
+      border-radius: 20px;
+      font-family: 'Montserrat', sans-serif;
+      z-index: 2;
+    }
+    .post-property-btn {
+      background-color: white;
+      color: #38b6ff;
+      border-radius: 50px;
+      padding: 10px 20px;
+      font-size: 14px;
+      font-weight: bold;
+      border: none;
+      cursor: pointer;
+      font-family: 'Montserrat', sans-serif;
+      position: relative;
+    }
+    .profile-icon {
+      width: 40px;
+      height: 40px;
+      background-color: white;
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+    }
+    .profile-icon img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    /* Hero section */
+    .hero {
+      padding: 20px;
+      color: white;
+      position: relative;
+      z-index: 1;
+    }
+    .greeting {
+      font-size: 16px;
+      margin-bottom: 5px;
+      font-family: 'Roboto', sans-serif;
+    }
+    .hero-title {
+      font-size: 22px;
+      font-weight: bold;
+      margin-bottom: 10px;
+      font-family: 'Montserrat', sans-serif;
+      padding: 0 15px;
+      white-space: nowrap;
+    }
+    .script-text {
+      font-family: 'Brush Script MT', cursive;
+      font-size: 28px;
+    }
+    /* Search section */
+    .search-section {
+      padding: 0 20px;
+      position: relative;
+      z-index: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .location-selector-container {
+      display: flex;
+      justify-content: center;
+      width: 100%;
+      margin-bottom: 15px;
+    }
+    .location-selector {
+      background-color: rgba(255, 255, 255, 0.3);
+      border-radius: 50px;
+      padding: 12px 20px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      cursor: pointer;
+      font-family: 'Roboto', sans-serif;
+      gap: 8px;
+      width: auto;
+    }
+    .location-icon {
+      display: flex;
+      align-items: center;
+    }
+    .search-bar {
+      background-color: white;
+      border-radius: 50px;
+      padding: 5px;
+      display: flex;
+      align-items: center;
+      margin-bottom: 20px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      width: 100%;
+    }
+    .search-input {
+      flex: 1;
+      border: none;
+      padding: 12px 15px;
+      border-radius: 50px;
+      outline: none;
+      font-size: 14px;
+      font-family: 'Roboto', sans-serif;
+      color: #999;
+    }
+    .search-button {
+      width: 50px;
+      height: 50px;
+      background-color: #38b6ff;
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+    }
+    /* Property type filters */
+    .property-filters {
+      display: flex;
+      justify-content: space-between;
+      padding: 0 20px;
+      margin-bottom: 20px;
+      position: relative;
+      z-index: 1;
+    }
+    .filter-button {
+      padding: 8px 15px;
+      border-radius: 50px;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      text-align: center;
+      font-family: 'Roboto', sans-serif;
+    }
+    .filter-active {
+      background-color: white;
+      color: #38b6ff;
+      font-weight: bold;
+    }
+    .filter-inactive {
+      background-color: rgba(255, 255, 255, 0.3);
+      color: white;
+    }
+    /* Property owner section */
+    .property-owner-container {
+      display: flex;
+      justify-content: center;
+      width: 100%;
+      margin-bottom: 20px;
+      position: relative;
+      z-index: 1;
+    }
+    .property-owner {
+      display: inline-flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 20px;
+      background-color: rgba(255, 255, 255, 0.3);
+      border-radius: 50px;
+      gap: 15px;
+    }
+    .owner-text {
+      color: black;
+      font-weight: 500;
+      font-family: 'Roboto', sans-serif;
+      white-space: nowrap;
+    }
+    /* Property sections */
+    .section-title {
+      padding: 20px 20px 10px;
+      color: #333;
+      font-family: 'Roboto', sans-serif;
+      font-size: 18px;
+      font-weight: 300;
+    }
+    .property-cards {
+      display: flex;
+      overflow-x: auto;
+      padding: 0 10px;
+      margin-bottom: 20px;
+      scrollbar-width: none;
+    }
+    .property-cards::-webkit-scrollbar {
+      display: none;
+    }
+    .property-card {
+      min-width: 250px;
+      background-color: white;
+      border-radius: 10px;
+      margin: 0 10px;
+      overflow: hidden;
+      border: 1px solid rgba(0, 0, 0, 0.29);
+      box-shadow: none;
+    }
+    .property-image {
+      position: relative;
+      height: 150px;
+      background-color: #eee;
+      overflow: hidden;
+    }
+    .property-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .image-count {
+      position: absolute;
+      bottom: 10px;
+      right: 10px;
+      background-color: rgba(0, 0, 0, 0.6);
+      color: white;
+      padding: 2px 8px;
+      border-radius: 10px;
+      font-size: 12px;
+      font-family: 'Roboto', sans-serif;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .image-count img {
+      width: 16px;
+      height: 16px;
+    }
+    .property-details {
+      padding: 10px;
+    }
+    .property-type {
+      font-size: 14px;
+      color: #666;
+      margin-bottom: 5px;
+      font-family: 'Roboto', sans-serif;
+    }
+    .property-price {
+      font-size: 18px;
+      font-weight: bold;
+      margin-bottom: 5px;
+      font-family: 'Montserrat', sans-serif;
+    }
+    .property-location {
+      font-size: 14px;
+      color: #666;
+      margin-bottom: 10px;
+      font-family: 'Roboto', sans-serif;
+    }
+    .ready-button {
+      background-color: #38b6ff;
+      color: white;
+      border-radius: 50px;
+      padding: 8px 15px;
+      font-size: 14px;
+      border: none;
+      cursor: pointer;
+      width: 100%;
+      text-align: center;
+      font-family: 'Roboto', sans-serif;
+      font-weight: 500;
+    }
+    /* Promo section */
+    .promo-section {
+      background-color: #38b6ff;
+      border-radius: 10px;
+      margin: 0 20px 20px;
+      padding: 20px;
+      color: white;
+      position: relative;
+      overflow: hidden;
+    }
+    .promo-content {
+      width: 60%;
+    }
+    .promo-title {
+      font-size: 18px;
+      margin-bottom: 5px;
+      font-family: 'Manrope', sans-serif;
+    }
+    .promo-subtitle {
+      font-size: 28px;
+      font-weight: bold;
+      margin-bottom: 15px;
+      font-family: 'Montserrat', sans-serif;
+    }
+    .promo-button-container {
+      position: relative;
+      display: inline-block;
+    }
+    .promo-button {
+      background-color: #FFA500;
+      color: black;
+      border-radius: 50px;
+      padding: 12px 20px;
+      font-size: 16px;
+      font-weight: bold;
+      border: none;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      font-family: 'Montserrat', sans-serif;
+    }
+    .promo-time {
+      font-size: 12px;
+      margin-left: 10px;
+      color: rgba(255, 255, 255, 0.8);
+      font-family: 'Roboto', sans-serif;
+    }
+    .promo-image {
+      position: absolute;
+      right: 0;
+      bottom: 0;
+      width: 40%;
+      height: 100%;
+    }
+    .promo-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+    /* Review section */
+    .review-section {
+      margin: 0 20px 20px;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- First Section with Gradient Background -->
+    <div class="first-section">
+      <!-- City Skyline Background -->
+      <div class="city-background">
+        <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/City%20skyline-rafiki-ghrGSX0mPVBgxPEZSvuQtYKQ6qHKOR.svg" alt="City Skyline" width="100%" height="100%">
+      </div>
+      <!-- Header -->
+      <div class="header">
+        <div class="logo">
+          <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Screenshot%202025-03-05%20at%208.05.44%E2%80%AFAM-z8tN1vcyiRTqc11VTc4B8OQbsQmC0g.png" alt="GoProperty Logo">
+        </div>
+        <div class="post-property-btn-container">
+          <span class="free-forever-tag">FREE FOREVER</span>
+          <button class="post-property-btn">POST PROPERTY!</button>
+        </div>
+        <div class="profile-icon">
+          <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/usericon-LWuWMgnXkXdVg2ehu2MGqrvppbPCTt.svg" alt="User Profile">
+        </div>
+      </div>
+      <!-- Hero Section -->
+      <div class="hero">
+        <!-- The greeting will be updated dynamically (ex: "Hi Main,") -->
+        <div class="greeting">Hi Praveen,</div>
+        <div class="hero-title">Find the Property which <span class="script-text">Goes for You!</span></div>
+      </div>
+      <!-- Search Section -->
+      <div class="search-section">
+        <div class="location-selector-container">
+          <div class="location-selector">
+            <div class="location-icon">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <circle cx="12" cy="10" r="3" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+            <!-- This text will be updated to the user's city -->
+            <div>Purnia</div>
+            <div>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M6 9l6 6 6-6" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+          </div>
+        </div>
+        <div class="search-bar">
+          <input type="text" class="search-input" placeholder="Search for city, locality, landmark, name...">
+          <div class="search-button">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M11 19a8 8 0 100-16 8 8 0 000 16z" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M21 21l-4.35-4.35" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+        </div>
+      </div>
+      <!-- Property Type Filters -->
+      <div class="property-filters">
+        <div class="filter-button filter-active">Buy</div>
+        <div class="filter-button filter-inactive">Rent</div>
+        <div class="filter-button filter-inactive">Commercial</div>
+        <div class="filter-button filter-inactive">Plots</div>
+        <div class="filter-button filter-inactive">PGs</div>
+      </div>
+      <!-- Property Owner Section -->
+      <div class="property-owner-container">
+        <div class="property-owner">
+          <div class="owner-text">Are you a Property Owner?</div>
+          <div class="post-property-btn-container">
+            <span class="free-forever-tag">FREE FOREVER</span>
+            <button class="post-property-btn">POST PROPERTY!</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Recommended Properties Section -->
+    <div class="section-title">Recommended Properties</div>
+    <!-- This container will be filled dynamically -->
+    <div class="property-cards">
+      <!-- Property cards injected here -->
+    </div>
+    <!-- Promo Section -->
+    <div class="promo-section" style="padding: 0; background: none; overflow: hidden;">
+      <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Frame%2011%20%281%29-mfF3Cm4wHhNPcFJxRpDfnLA2XubSy1.svg" alt="Post Property" style="width: 100%; height: auto; display: block;">
+    </div>
+    <!-- Properties Nearby Section -->
+    <div class="section-title">Properties Nearby</div>
+    <!-- This container will be filled dynamically -->
+    <div class="property-cards">
+      <!-- Property cards injected here -->
+    </div>
+    <!-- Review Section -->
+    <div class="review-section">
+      <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Frame%209-dhWr5lLnTGSNSEhe1KmYx77ahxy9xM.svg" alt="Review Card" style="width: 100%; height: auto; display: block;">
+    </div>
+  </div>
+
+  <!-- Existing interactive JavaScript -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Filter buttons functionality
+      const filterButtons = document.querySelectorAll('.filter-button');
+      filterButtons.forEach(button => {
+        button.addEventListener('click', function() {
+          filterButtons.forEach(btn => {
+            btn.classList.remove('filter-active');
+            btn.classList.add('filter-inactive');
+          });
+          this.classList.remove('filter-inactive');
+          this.classList.add('filter-active');
+        });
+      });
+      // Location selector dropdown functionality
+      const locationSelector = document.querySelector('.location-selector');
+      locationSelector.addEventListener('click', function() {
+        alert('Location selector clicked! This would open a dropdown in a real app.');
+      });
+      // Search functionality
+      const searchButton = document.querySelector('.search-button');
+      const searchInput = document.querySelector('.search-input');
+      searchButton.addEventListener('click', function() {
+        const searchTerm = searchInput.value.trim();
+        if (searchTerm) {
+          alert(`Searching for: ${searchTerm}`);
+        } else {
+          alert('Please enter a search term');
+        }
+      });
+      // Post property buttons
+      const postPropertyButtons = document.querySelectorAll('.post-property-btn, .promo-button');
+      postPropertyButtons.forEach(button => {
+        button.addEventListener('click', function() {
+          alert('This would open the property posting form in a real app.');
+        });
+      });
+      // Property cards click event
+      const propertyCards = document.querySelectorAll('.property-card');
+      propertyCards.forEach(card => {
+        card.addEventListener('click', function() {
+          alert('This would open the property details page in a real app.');
+        });
+      });
+    });
+  </script>
+
+  <!-- New script for API integration and Thunkable messaging -->
+  <script>
+    let currentUserID = null;  // Set when a message with a user ID is received
+    let userData = null;
+    let propertiesData = null;
+
+    // Fetch user data from the API
+    function fetchUserData() {
+      fetch('https://script.google.com/macros/s/AKfycbwWeNBbF0-xM_ZfaDitCa73KgRvNcY4_ayDD0LnXUvjCfhBYlfxbSwQiK_z0qLkX0_d/exec?sheetID=1jKIHuvglnOBs7C066NEfBxm_fL6Crc4zDjL1eXvZD1M')
+        .then(response => response.json())
+        .then(data => {
+          if (data && data.data && data.data.length > 0) {
+            // If a user ID is provided via message, try to use that row (assuming row numbers start at 1)
+            if (currentUserID) {
+              userData = data.data[currentUserID - 1] || data.data[0];
+            } else {
+              userData = data.data[0];
+            }
+            updateUserUI();
+          }
+        })
+        .catch(err => console.error(err));
+    }
+
+    // Update the UI with user details
+    function updateUserUI() {
+      if (!userData) return;
+      // Update greeting text
+      document.querySelector('.greeting').textContent = "Hi " + userData.Name + ",";
+      // Update location text in the selector
+      const locationDiv = document.querySelector('.location-selector > div:nth-child(2)');
+      if (locationDiv) {
+        locationDiv.textContent = userData.UserCity;
+      }
+      // Update profile image
+      const profileImg = document.querySelector('.profile-icon img');
+      if (profileImg && userData.ProfilePic) {
+        profileImg.src = userData.ProfilePic;
+      }
+    }
+
+    // Fetch properties data from the API
+    function fetchPropertiesData() {
+      fetch('https://script.google.com/macros/s/AKfycbwWeNBbF0-xM_ZfaDitCa73KgRvNcY4_ayDD0LnXUvjCfhBYlfxbSwQiK_z0qLkX0_d/exec?sheetID=1aEkVLWrcwAv-3Hl5QOZTb9D3R4_XczvmrnZyHwZPuMU')
+        .then(response => response.json())
+        .then(data => {
+          if (data && data.data) {
+            propertiesData = data.data;
+            updatePropertiesUI();
+          }
+        })
+        .catch(err => console.error(err));
+    }
+
+    // Update the properties sections based on user city and interest
+    function updatePropertiesUI() {
+      if (!userData || !propertiesData) return;
+      const userCity = userData.UserCity;
+      // Filter properties that match the user city
+      const matchingProperties = propertiesData.filter(property => property["Property City"] === userCity);
+      
+      // Separate properties into recommended and nearby based on verification or matching interest
+      const recommended = [];
+      const nearby = [];
+      // User's interest (assumed to be a pipe-separated string)
+      const userInterests = userData.Interest.split('|').map(i => i.trim().toLowerCase());
+      
+      matchingProperties.forEach(property => {
+        const isVerified = property["Property Verification Type"] === true || property["Property Verification Type"] === "true";
+        const sellingType = property["Property Selling Buy/Rent"] ? property["Property Selling Buy/Rent"].toLowerCase() : "";
+        const typeCommercial = property["Property Type Commercial/Residential"] ? property["Property Type Commercial/Residential"].toLowerCase() : "";
+        const interestMatch = userInterests.includes(sellingType) || userInterests.includes(typeCommercial);
+        if (isVerified || interestMatch) {
+          recommended.push(property);
+        } else {
+          nearby.push(property);
+        }
+      });
+      
+      // Populate Recommended Properties section
+      const recommendedContainer = document.querySelectorAll('.property-cards')[0];
+      recommendedContainer.innerHTML = "";
+      recommended.forEach(property => {
+        recommendedContainer.insertAdjacentHTML('beforeend', createPropertyCard(property));
+      });
+      
+      // Populate Properties Nearby section
+      const nearbyContainer = document.querySelectorAll('.property-cards')[1];
+      nearbyContainer.innerHTML = "";
+      nearby.forEach(property => {
+        nearbyContainer.insertAdjacentHTML('beforeend', createPropertyCard(property));
+      });
+    }
+
+    // Helper function to create a property card HTML snippet
+    function createPropertyCard(property) {
+      return `
+        <div class="property-card">
+          <div class="property-image">
+            <img src="${property["Property Images CSV"]}" alt="Property Image">
+            <div class="image-count">
+              <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/insert-picture-icon%201-x4I4vwlo5PLgxieGwIwUwZbys6mRdM.svg" alt="Images">
+              47
+            </div>
+          </div>
+          <div class="property-details">
+            <div class="property-type">${property["Property Type"]} | ${property["Property Built up sqf"]} sqft</div>
+            <div class="property-price">${property["Property Price"]}</div>
+            <div class="property-location">${property["Property Address"]}</div>
+            <div class="ready-button">Ready to Move</div>
+          </div>
+        </div>
+      `;
+    }
+
+    // Listen for messages from Thunkable
+    ThunkableWebviewerExtension.receiveMessage(function(message) {
+      if (typeof message === 'string' && message.charAt(0) === '?') {
+        const id = parseInt(message.substring(1));
+        if (!isNaN(id)) {
+          currentUserID = id;
+          fetchUserData();
+        }
+      }
+    });
+
+    // Fetch user and properties data once the DOM is loaded
+    document.addEventListener('DOMContentLoaded', function() {
+      fetchUserData();
+      fetchPropertiesData();
+    });
+  </script>
+
+  <!-- Include Thunkable Webviewer extension script -->
+  <script src="https://thunkable.github.io/webviewer-extension/thunkableWebviewerExtension.js" type="text/javascript"></script>
+</body>
+</html>
